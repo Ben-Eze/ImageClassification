@@ -12,25 +12,27 @@ class MLP_MNIST(nn.Module):
         activation = nn.ReLU()
 
         self.architecture = nn.Sequential(
-        # First Layer
-        nn.Linear(in_features=INPUT_BREADTH, 
-                out_features=HIDDEN_BREADTH,
-                bias=BIAS),
-        dropout,
-        activation,
+            nn.Flatten(start_dim=1),
+            # First Layer
+            nn.Linear(in_features=INPUT_BREADTH, 
+                      out_features=HIDDEN_BREADTH,
+                      bias=BIAS),
+            dropout,
+            activation,
 
-        # Hidden Layers
-        *(HIDDEN_DEPTH * [
+            # Hidden Layers
+            *(HIDDEN_DEPTH * [
+                nn.Linear(in_features=HIDDEN_BREADTH, 
+                      out_features=HIDDEN_BREADTH,
+                      bias=BIAS),
+                dropout, 
+                activation]
+            ),
+            
+            # Final Layer
             nn.Linear(in_features=HIDDEN_BREADTH, 
-                    out_features=HIDDEN_BREADTH,
-                    bias=BIAS),
-            dropout, 
-            activation]),
-        
-        # Final Layer
-        nn.Linear(in_features=HIDDEN_BREADTH, 
-                out_features=OUTPUT_BREADTH,
-                bias=BIAS)
+                      out_features=OUTPUT_BREADTH,
+                      bias=BIAS)
         )
     
     def forward(self, X):
