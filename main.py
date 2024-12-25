@@ -1,27 +1,23 @@
 import torch
-from models.MLP_MNIST import MLP_MNIST
-from models.CNN_MNIST import CNN_MNIST
+import models.MLP_MNIST     # required if using model even if shaded out!
+import models.CNN_MNIST     # required if using model even if shaded out!
+from models.SmartSequential import SmartSequential
 from src import data
 from src import training
 from src import hyperparams
 from src import save_load
 
 # load model hyperparams (MH) and training hyperparams (TH)
-# MH, TH = hyperparams.read("configs/config0.json")
-MH, TH = hyperparams.read("configs/config1.json")
+# MH, TH = hyperparams.read("configs/config1.json")
+MH, TH = hyperparams.read("configs/config2.json")
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 torch.manual_seed(seed=TH["SEED"])
 
 X, X_train, X_test, y, y_train, y_test = data.get_MNIST(TH["TEST_SIZE"])
 
-# model = MLP_MNIST(INPUT_BREADTH=MH["INPUT_BREADTH"], 
-#                   OUTPUT_BREADTH=MH["OUTPUT_BREADTH"],
-#                   HIDDEN_DEPTH=MH["HIDDEN_DEPTH"], 
-#                   HIDDEN_BREADTH=MH["HIDDEN_BREADTH"],
-#                   BIAS=MH["BIAS"], 
-#                   DROPOUT_P=MH["DROPOUT_P"])
-model = CNN_MNIST(CONFIG=MH["CONFIG"])
+ModelClass = SmartSequential.module_dict[MH["ARCHITECTURE"]]
+model = ModelClass(CONFIG=MH["CONFIG"])
 
 optimiser = torch.optim.AdamW(
     model.parameters(), lr=TH["LR"]

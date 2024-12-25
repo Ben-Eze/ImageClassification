@@ -1,7 +1,7 @@
 {
   "model_hyperparams": {
     "INPUT_BREADTH": 64,
-    "HIDDEN_DEPTH": 8,
+    "HIDDEN_DEPTH": 3,
     "HIDDEN_BREADTH": 128,
     "OUTPUT_BREADTH": 10,
     "DROPOUT_P": 0.2,
@@ -14,7 +14,7 @@
     "LR": 0.01,
     "SCHEDULER_PATIENCE": 1,
     "SCHEDULER_FACTOR": 0.5,
-    "N_EPOCHS": 501,
+    "N_EPOCHS": 101,
     "EVAL_INTERVAL": 200,
     "SEED": 123
   }
