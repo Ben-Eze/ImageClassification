@@ -1,5 +1,6 @@
 import torch
 from models.MLP_MNIST import MLP_MNIST
+from models.CNN_MNIST import CNN_MNIST
 from src import data
 from src import training
 from src import hyperparams
@@ -13,11 +14,16 @@ torch.manual_seed(seed=TH["SEED"])
 
 X, X_train, X_test, y, y_train, y_test = data.get_MNIST(TH["TEST_SIZE"])
 
-model = MLP_MNIST(MH["INPUT_BREADTH"], 
-                  MH["OUTPUT_BREADTH"],
-                  MH["HIDDEN_DEPTH"], 
-                  MH["HIDDEN_BREADTH"],
-                  MH["BIAS"], MH["DROPOUT_P"])
+# model = MLP_MNIST(INPUT_BREADTH=MH["INPUT_BREADTH"], 
+#                   OUTPUT_BREADTH=MH["OUTPUT_BREADTH"],
+#                   HIDDEN_DEPTH=MH["HIDDEN_DEPTH"], 
+#                   HIDDEN_BREADTH=MH["HIDDEN_BREADTH"],
+#                   BIAS=MH["BIAS"], 
+#                   DROPOUT_P=MH["DROPOUT_P"])
+model = CNN_MNIST(OUTPUT_BREADTH=MH["OUTPUT_BREADTH"],
+                  HIDDEN_BREADTH=MH["HIDDEN_BREADTH"],
+                  BIAS=MH["BIAS"], 
+                  DROPOUT_P=MH["DROPOUT_P"])
 
 optimiser = torch.optim.AdamW(
     model.parameters(), lr=TH["LR"]
