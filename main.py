@@ -7,7 +7,8 @@ from src import hyperparams
 from src import save_load
 
 # load model hyperparams (MH) and training hyperparams (TH)
-MH, TH = hyperparams.read("configs/config0.json")
+# MH, TH = hyperparams.read("configs/config0.json")
+MH, TH = hyperparams.read("configs/config1.json")
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 torch.manual_seed(seed=TH["SEED"])
@@ -20,7 +21,8 @@ X, X_train, X_test, y, y_train, y_test = data.get_MNIST(TH["TEST_SIZE"])
 #                   HIDDEN_BREADTH=MH["HIDDEN_BREADTH"],
 #                   BIAS=MH["BIAS"], 
 #                   DROPOUT_P=MH["DROPOUT_P"])
-model = CNN_MNIST(OUTPUT_BREADTH=MH["OUTPUT_BREADTH"],
+model = CNN_MNIST(CHANNELS=MH["CHANNELS"],
+                  OUTPUT_BREADTH=MH["OUTPUT_BREADTH"],
                   HIDDEN_BREADTH=MH["HIDDEN_BREADTH"],
                   BIAS=MH["BIAS"], 
                   DROPOUT_P=MH["DROPOUT_P"])
@@ -46,4 +48,8 @@ model, curr_performance, training_complete = training.training_loop(
 
 print(f"Training Complete: {training_complete}\n")
 
-save_load.save(model, MH["SAVE_FILE"], training_complete)
+save_load.save(model, 
+               file_path=MH["SAVE_FILE"], 
+               loss=curr_performance["loss_test"], 
+               acc=curr_performance["accuracy_test"], 
+               )

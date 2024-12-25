@@ -1,5 +1,6 @@
 from src import utils
 import torch
+import warnings
 
 
 def training_loop(model, optimiser, loss_function, scheduler,
@@ -7,7 +8,7 @@ def training_loop(model, optimiser, loss_function, scheduler,
                   N_EPOCHS, EVAL_INTERVAL, PRINT_PERFORMANCE=True):
     model.train()
     curr_performance = None
-    training_complete = True
+    training_complete = False
 
     try:
         for epoch_i in range(N_EPOCHS):
@@ -30,8 +31,20 @@ def training_loop(model, optimiser, loss_function, scheduler,
                 
                 if PRINT_PERFORMANCE:
                     print_performance(performance)
+        
+        training_complete = True
+        
+        # get final model performance if not up-to-date
+        if performance is None:
+            curr_performance = eval_performance(
+                    model, optimiser, loss_function, scheduler,
+                    y_train, X_test, y_test,
+                    y_logits, loss_train,
+                    epoch_i, EVAL_INTERVAL=1)
+    except Exception as e:
+        warnings.warn(e)
     except:
-        training_complete = False
+        pass
     
     return model, curr_performance, training_complete
 

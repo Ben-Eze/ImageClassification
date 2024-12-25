@@ -1,6 +1,7 @@
 {
   "model_hyperparams": {
-    "HIDDEN_BREADTH": 128,
+    "CHANNELS": [8, 32, 64], 
+    "HIDDEN_BREADTH": 16,
     "OUTPUT_BREADTH": 10,
     "DROPOUT_P": 0.2,
     "BIAS": true,
@@ -9,11 +10,11 @@
 
   "train_hyperparams": {
     "TEST_SIZE": 0.2,
-    "LR": 0.01,
-    "SCHEDULER_PATIENCE": 1,
+    "LR": 0.015,
+    "SCHEDULER_PATIENCE": 2,
     "SCHEDULER_FACTOR": 0.5,
     "N_EPOCHS": 501,
-    "EVAL_INTERVAL": 200,
+    "EVAL_INTERVAL": 20,
     "SEED": 123
   }
 }

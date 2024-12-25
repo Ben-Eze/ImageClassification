@@ -3,6 +3,7 @@ import torch.nn as nn
 
 class CNN_MNIST(nn.Module):
     def __init__(self, 
+                 CHANNELS,
                  OUTPUT_BREADTH,
                  HIDDEN_BREADTH,
                  BIAS, DROPOUT_P):
@@ -10,34 +11,35 @@ class CNN_MNIST(nn.Module):
 
         dropout = nn.Dropout(p=DROPOUT_P)
         activation = nn.ReLU()
+        a, b, c = CHANNELS
 
         self.architecture = nn.Sequential(
             nn.Conv2d(in_channels=1,
-                      out_channels=16,
+                      out_channels=a,
                       kernel_size=3,
                       stride=1,
-                      padding=1),           # (*, 8, 8, 1) -> (*, 8, 8, 16)
+                      padding=1),           # (*, 8, 8, 1) -> (*, 8, 8, a)
             dropout,
             activation,
-            nn.Conv2d(in_channels=16,
-                      out_channels=64,
+            nn.Conv2d(in_channels=a,
+                      out_channels=b,
                       kernel_size=3,
                       stride=1,
-                      padding=1),           # (*, 8, 8, 16) -> (*, 8, 8, 64)
-            nn.MaxPool2d(kernel_size=2),    # (*, 8, 8, 64) -> (*, 4, 4, 64)
+                      padding=1),           # (*, 8, 8, 16) -> (*, 8, 8, b)
+            nn.MaxPool2d(kernel_size=2),    # (*, 8, 8, b) -> (*, 4, 4, b)
             dropout,
             activation,
-            nn.Conv2d(in_channels=64,
-                      out_channels=256,
+            nn.Conv2d(in_channels=b,
+                      out_channels=c,
                       kernel_size=3,
                       stride=1,
-                      padding=1),           # (*, 4, 4, 64) -> (*, 4, 4, 256)
+                      padding=1),           # (*, 4, 4, 64) -> (*, 4, 4, c)
             dropout,
             activation,
             nn.Flatten(),
             
             # 2 FULLY-CONNECTED LAYERS
-            nn.Linear(in_features=4*4*256, 
+            nn.Linear(in_features=4*4*c, 
                     out_features=HIDDEN_BREADTH,
                     bias=BIAS),
             dropout,
