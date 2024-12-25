@@ -21,11 +21,7 @@ X, X_train, X_test, y, y_train, y_test = data.get_MNIST(TH["TEST_SIZE"])
 #                   HIDDEN_BREADTH=MH["HIDDEN_BREADTH"],
 #                   BIAS=MH["BIAS"], 
 #                   DROPOUT_P=MH["DROPOUT_P"])
-model = CNN_MNIST(CHANNELS=MH["CHANNELS"],
-                  OUTPUT_BREADTH=MH["OUTPUT_BREADTH"],
-                  HIDDEN_BREADTH=MH["HIDDEN_BREADTH"],
-                  BIAS=MH["BIAS"], 
-                  DROPOUT_P=MH["DROPOUT_P"])
+model = CNN_MNIST(CONFIG=MH["CONFIG"])
 
 optimiser = torch.optim.AdamW(
     model.parameters(), lr=TH["LR"]
