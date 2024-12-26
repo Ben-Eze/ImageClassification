@@ -1,0 +1,26 @@
+{
+  "model_hyperparams": {
+    "MODEL_CLASS": "CNN_MNIST",
+    "CONFIG": [ 
+      ["C", [1, 8]], ["D", 0.1], ["A", "relu"],
+      ["C", [8, 16]], ["D", 0.1], ["A", "relu"],
+      ["M", 2], 
+      ["C", [16, 32]], ["D", 0.1], ["A", "relu"],
+      ["F", 1],
+      ["L", [512, 32]], ["D", 0.1], ["A", "relu"],
+      ["L", [32, 10]]
+    ],
+
+    "SAVE_FILE": "models/state_dicts/SmallCNN.pt"
+  },
+
+  "train_hyperparams": {
+    "TEST_SIZE": 0.2,
+    "LR": 0.02,
+    "SCHEDULER_PATIENCE": 1,
+    "SCHEDULER_FACTOR": 0.5,
+    "N_EPOCHS": 381,
+    "EVAL_INTERVAL": 20,
+    "SEED": 123
+  }
+}

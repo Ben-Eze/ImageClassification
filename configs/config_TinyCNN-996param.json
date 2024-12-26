@@ -1,0 +1,26 @@
+{
+  "model_hyperparams": {
+    "MODEL_CLASS": "CNN_MNIST",
+    "CONFIG": [ 
+      ["C", [1, 2]], ["D", 0.1], ["A", "relu"],
+      ["M", 2], 
+      ["C", [2, 6]], ["D", 0.1], ["A", "relu"],
+      ["F", 1],
+      ["L", [96, 8]], ["D", 0.1], ["A", "relu"],
+      ["L", [8, 4]], ["D", 0.1], ["A", "relu"],
+      ["L", [4, 10]]
+    ],
+
+    "SAVE_FILE": "models/state_dicts/TinyCNN.pt"
+  },
+
+  "train_hyperparams": {
+    "TEST_SIZE": 0.2,
+    "LR": 0.005,
+    "SCHEDULER_PATIENCE": 1,
+    "SCHEDULER_FACTOR": 0.5,
+    "N_EPOCHS": 1501,
+    "EVAL_INTERVAL": 20,
+    "SEED": 123
+  }
+}
