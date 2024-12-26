@@ -54,6 +54,7 @@ class SmartSequential(nn.Module):
     
     def state_dict(self):
         sd = super().state_dict()
+        sd["MODEL_CLASS"] = self.MODEL_CLASS
         sd["CONFIG"] = self.CONFIG
         return sd
 

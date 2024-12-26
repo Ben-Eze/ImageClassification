@@ -1,6 +1,6 @@
 {
   "model_hyperparams": {
-    "ARCHITECTURE": "CNN_MNIST",
+    "MODEL_CLASS": "CNN_MNIST",
     "CONFIG": [ 
       ["C", [1, 8]], ["D", 0.1], ["A", "relu"],
       ["C", [8, 16]], ["D", 0.1], ["A", "relu"],
@@ -16,7 +16,7 @@
 
   "train_hyperparams": {
     "TEST_SIZE": 0.2,
-    "LR": 0.02,
+    "LR": 0.01,
     "SCHEDULER_PATIENCE": 1,
     "SCHEDULER_FACTOR": 0.5,
     "N_EPOCHS": 501,

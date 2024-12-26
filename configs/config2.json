@@ -1,6 +1,6 @@
 {
   "model_hyperparams": {
-    "ARCHITECTURE": "MLP_MNIST",
+    "MODEL_CLASS": "MLP_MNIST",
     "CONFIG": [ 
       ["F", 1],
       ["L", [64, 128]], ["D", 0.2], ["A", "relu"],

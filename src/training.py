@@ -65,7 +65,8 @@ def eval_performance(model, optimiser, loss_function, scheduler,
         model, loss_function, X_test, y_test
     )
 
-    scheduler.step(loss_test)
+    # scheduler.step(loss_test)
+    scheduler.step()
 
     return {
         "epoch_i": epoch_i,
