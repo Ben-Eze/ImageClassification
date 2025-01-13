@@ -6,4 +6,6 @@ def read(file_path):
     with open(file_path, 'r') as f:
         hyperparams = json.load(f)
 
-    return hyperparams['model_hyperparams'], hyperparams['train_hyperparams']
+    return hyperparams['data_hyperparams'], \
+           hyperparams['model_hyperparams'], \
+           hyperparams['train_hyperparams']
