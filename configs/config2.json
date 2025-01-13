@@ -1,4 +1,9 @@
 {
+  "data_hyperparams": {
+    "DATASET": "digits",
+    "RESHAPE": [-1, 8, 8]
+  }, 
+
   "model_hyperparams": {
     "MODEL_CLASS": "MLP_MNIST",
     "CONFIG": [ 

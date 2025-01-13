@@ -1,0 +1,21 @@
+{
+  "data_hyperparams": {
+    "DATASET": "mnist_784",
+    "RESHAPE": [-1, 28, 28]
+  }, 
+
+  "model_hyperparams": {
+    "LOAD": "models/state_dicts784/CNN9532.pt",
+    "SAVE_FILE": "models/state_dicts784/CNN.pt"
+  },
+
+  "train_hyperparams": {
+    "TEST_SIZE": 0.2,
+    "LR": 0.02,
+    "SCHEDULER_PATIENCE": 1,
+    "SCHEDULER_FACTOR": 0.5,
+    "N_EPOCHS": 381,
+    "EVAL_INTERVAL": 20,
+    "SEED": 123
+  }
+}

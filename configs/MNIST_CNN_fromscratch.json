@@ -1,22 +1,23 @@
 {
   "data_hyperparams": {
-    "DATASET": "digits",
-    "RESHAPE": [-1, 8, 8]
+    "DATASET": "mnist_784",
+    "RESHAPE": [-1, 28, 28]
   }, 
 
   "model_hyperparams": {
     "MODEL_CLASS": "CNN_MNIST",
     "CONFIG": [ 
-      ["C", [1, 8]], ["D", 0.1], ["A", "relu"],
-      ["C", [8, 16]], ["D", 0.1], ["A", "relu"],
+      ["C", [1, 4]], ["D", 0.1], ["A", "relu"],
       ["M", 2], 
-      ["C", [16, 32]], ["D", 0.1], ["A", "relu"],
+      ["C", [4, 8]], ["D", 0.1], ["A", "relu"],
+      ["M", 2], 
+      ["C", [8, 16]], ["D", 0.1], ["A", "relu"],
       ["F", 1],
-      ["L", [512, 32]], ["D", 0.1], ["A", "relu"],
-      ["L", [32, 10]]
+      ["L", [784, 16]], ["D", 0.1], ["A", "relu"],
+      ["L", [16, 10]]
     ],
 
-    "SAVE_FILE": "models/state_dicts/SmallCNN.pt"
+    "SAVE_FILE": "models/state_dicts784/CNN.pt"
   },
 
   "train_hyperparams": {
