@@ -3,7 +3,7 @@ import torch
 import warnings
 
 
-def training_loop(model, optimiser, loss_function, scheduler,
+def training_loop(model, optimiser, loss_function, scheduler, step_scheduler,
                   X_train, y_train, X_test, y_test, 
                   N_EPOCHS, EVAL_INTERVAL, PRINT_PERFORMANCE=True):
     model.train()
@@ -21,7 +21,7 @@ def training_loop(model, optimiser, loss_function, scheduler,
             optimiser.step()
             
             performance = eval_performance(
-                model, optimiser, loss_function, scheduler,
+                model, optimiser, loss_function, scheduler, step_scheduler,
                 y_train, X_test, y_test,
                 y_logits, loss_train,
                 epoch_i, EVAL_INTERVAL)
@@ -37,7 +37,7 @@ def training_loop(model, optimiser, loss_function, scheduler,
         # get final model performance if not up-to-date
         if performance is None:
             curr_performance = eval_performance(
-                    model, optimiser, loss_function, scheduler,
+                    model, optimiser, loss_function, scheduler, step_scheduler,
                     y_train, X_test, y_test,
                     y_logits, loss_train,
                     epoch_i, EVAL_INTERVAL=1)
@@ -45,11 +45,13 @@ def training_loop(model, optimiser, loss_function, scheduler,
         warnings.warn(e)
     except:
         pass
+
+    print(f"Training Complete: {training_complete}\n")
     
     return model, curr_performance, training_complete
 
 
-def eval_performance(model, optimiser, loss_function, scheduler,
+def eval_performance(model, optimiser, loss_function, scheduler, step_scheduler,
                      y_train, X_test, y_test,
                      y_logits, loss_train,
                      epoch_i, EVAL_INTERVAL):
@@ -65,8 +67,7 @@ def eval_performance(model, optimiser, loss_function, scheduler,
         model, loss_function, X_test, y_test
     )
 
-    # scheduler.step(loss_test)
-    scheduler.step()
+    step_scheduler(scheduler, loss_test)
 
     return {
         "epoch_i": epoch_i,

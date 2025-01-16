@@ -1,0 +1,16 @@
+{
+  "data_hyperparams": {
+    "DATASET": "digits",
+    "RESHAPE": [-1, 8, 8]
+  }, 
+
+  "model_hyperparams": {
+    "LOAD": "models/special_state_dicts/CNN_3Dautoencoder_acc=0.97.pt",
+    "SAVE_FILE": "models/state_dicts/test_CNN.pt"
+  },
+
+  "train_hyperparams": {
+    "TEST_SIZE": 0.2,
+    "SEED": 123
+  }
+}
