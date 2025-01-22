@@ -9,42 +9,59 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
-# def plot_input_img(X_in):
-#     x = X_in[0, 0].detach().numpy()
-#     plt.imshow(x, cmap="gray")
-#     plt.pause(1e-8)
+def plot_input_img(X_in):
+    x = X_in[0, 0].detach().numpy()
+    plt.imshow(x, cmap="gray")
+    plt.pause(1e-8)
 
 
-# def plot_hidden_layers(C, rows, cols):
-#     c = C.detach().numpy()
-#     fig, axs = plt.subplots(rows, cols)
-#     for i in range(rows * cols):
-#         axs[i // cols, i % cols].imshow(c[0, i])
-#     plt.pause(1e-8)
+def plot_hidden_layers(C, rows, cols):
+    c = C.detach().numpy()
+    fig, axs = plt.subplots(rows, cols)
+    for i in range(rows * cols):
+        axs[i // cols, i % cols].imshow(c[0, i])
+    plt.pause(1e-8)
 
-def plot_conv_layers(X_in, conv_outputs, max_channels=8):
+def get_vertical_indices(num_images, max_channels):
+    start_idx = (max_channels - num_images) // 2
+    end_idx = start_idx + num_images
+    return start_idx, end_idx
+
+def plot_conv_layers(X_in, conv_outputs, X_idx=0, max_channels=8):
     num_layers = len(conv_outputs) + 1  # Including input image
-    fig, axes = plt.subplots(nrows=max_channels, ncols=num_layers, figsize=(num_layers * 3, max_channels * 3))
+    fig, axes = plt.subplots(nrows=max_channels, ncols=num_layers, figsize=(num_layers * 2, max_channels * 2))
 
     # Plot input image
-    for i in range(max_channels):
-        if i < X_in.shape[1]:
-            axes[i, 0].imshow(X_in[0, i].cpu().detach().numpy(), cmap='gray')
+    input_images = X_in.shape[1]
+    start_idx, end_idx = get_vertical_indices(input_images, max_channels)
+    for i in range(start_idx, end_idx):
+        axes[i, 0].imshow(X_in[X_idx, i - start_idx].cpu().detach().numpy(), cmap='gray')
         axes[i, 0].axis('off')
-    axes[0, 0].set_title('Input Image')
+        # Enlarge the input image
+        # axes[i, 0].set_box_aspect(1)  # Adjust the aspect ratio
+    axes[start_idx, 0].set_title('Input Image', fontsize=12)
 
     # Plot conv layers
     for layer_idx, layer_output in enumerate(conv_outputs):
-        for i in range(max_channels):
-            if i < layer_output.shape[1]:
-                axes[i, layer_idx + 1].imshow(layer_output[0, i].cpu().detach().numpy())
+        num_images = layer_output.shape[1]
+        start_idx, end_idx = get_vertical_indices(num_images, max_channels)
+        for i in range(start_idx, end_idx):
+            axes[i, layer_idx + 1].imshow(layer_output[X_idx, i - start_idx].cpu().detach().numpy())
             axes[i, layer_idx + 1].axis('off')
-        axes[0, layer_idx + 1].set_title(f'Conv Layer {layer_idx + 1}')
+            # Enlarge the first layer
+            # if layer_idx != 0:
+            #     axes[i, layer_idx + 1].set_box_aspect(2)
+        axes[start_idx, layer_idx + 1].set_title(f'Layer {layer_idx + 1}', fontsize=12)
 
-    # Adjust layout to reduce white space
-    plt.subplots_adjust(left=0.02, right=0.98, top=0.95, bottom=0.05, wspace=0.05, hspace=0.05)
+    # Turn off unused axes
+    for i in range(max_channels):
+        for j in range(num_layers):
+            if not axes[i, j].images:
+                axes[i, j].axis('off')
+
+    # Adjust layout to reduce horizontal space and maintain proportions
+    plt.subplots_adjust(left=0.03, right=0.97, top=0.9, bottom=0.05, wspace=0.02, hspace=0.1)
     plt.show()
-
 
 
 def plot_latent_space(E, y):
@@ -91,13 +108,9 @@ def main(config):
     E = encoder(C3)
     Y = decoder(E)
 
-    # plot_input_img(X_in)
-    # plot_hidden_layers(C1, rows=2, cols=2)
-    # plot_hidden_layers(C2, rows=2, cols=4)
-    # plot_hidden_layers(C3, rows=2, cols=4)
     conv_layers = [C1, C2, C3]
-    plot_conv_layers(X_in, conv_layers)
-    plot_latent_space(E, y_test)
+    plot_conv_layers(X_in, conv_layers, X_idx=1)
+    # plot_latent_space(E, y_test)
     plt.show()
 
 main("configs/config_surgery.json")
